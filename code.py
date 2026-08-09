@@ -13,14 +13,9 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    /* Global App Background & Base Text */
+    /* Global App Background */
     .stApp {
         background-color: #121212 !important;
-        color: #FFFFFF !important;
-    }
-
-    /* Force all text paragraphs, spans, headers, and markdown across the app to high-contrast white */
-    p, span, h1, h2, h3, h4, h5, h6, label, div[data-testid="stMarkdownContainer"] * {
         color: #FFFFFF !important;
     }
 
@@ -32,20 +27,26 @@ st.markdown(
         padding: 20px !important;
     }
 
-    /* Text Area Box & Active Input Text */
+    /* Text Inputs & Form Labels */
+    div[data-testid="stForm"] label,
+    div[data-testid="stForm"] label p,
+    div[data-testid="stForm"] label span {
+        color: #FFFFFF !important;
+        font-weight: 500 !important;
+    }
+
     div[data-testid="stTextArea"] textarea {
         background-color: #262626 !important;
         color: #FFFFFF !important;
         border: 1px solid #444444 !important;
     }
 
-    /* Text Area Placeholder Text Only */
     div[data-testid="stTextArea"] textarea::placeholder {
         color: #999999 !important;
         opacity: 1 !important;
     }
 
-    /* File Uploader Outer & Dropzone Box */
+    /* File Uploader Container & Inner Box */
     div[data-testid="stFileUploader"] {
         background-color: transparent !important;
     }
@@ -57,74 +58,90 @@ st.markdown(
         border-radius: 8px !important;
     }
 
-    /* File Uploader Subtext ("200MB per file...") */
     div[data-testid="stFileUploader"] small,
-    div[data-testid="stFileUploader"] [data-testid="stCaptionContainer"] *,
-    div[data-testid="stFileUploader"] p {
+    div[data-testid="stFileUploader"] p,
+    div[data-testid="stFileUploader"] span {
         color: #DDDDDD !important;
     }
 
-    /* Upload Button Styling */
-    div[data-testid="stFileUploader"] button {
-        background-color: #D32F2F !important;
-        border: none !important;
-        border-radius: 8px !important;
-    }
-
-    div[data-testid="stFileUploader"] button * {
-        color: #FFFFFF !important;
-        font-weight: 600 !important;
-    }
-
-    div[data-testid="stFileUploader"] button:hover {
-        background-color: #F44336 !important;
-    }
-
-    /* Standard Buttons & Submit Button */
-    .stButton > button {
+    /* All Standard Buttons + Download Button Styling */
+    .stButton > button, 
+    div[data-testid="stDownloadButton"] > button {
         background-color: #D32F2F !important;
         color: #FFFFFF !important;
         border-radius: 8px !important;
         border: none !important;
         font-weight: 600 !important;
+        padding: 0.5rem 1rem !important;
         box-shadow: 0 4px 6px rgba(211, 47, 47, 0.3) !important;
     }
 
-    .stButton > button:hover {
+    .stButton > button:hover, 
+    div[data-testid="stDownloadButton"] > button:hover {
         background-color: #F44336 !important;
         color: #FFFFFF !important;
     }
 
-    /* Chat Messages & Follow-up Text Area */
+    /* Ensure text/icons inside buttons stay white */
+    .stButton > button *, 
+    div[data-testid="stDownloadButton"] > button * {
+        color: #FFFFFF !important;
+    }
+
+    /* Info Note Box Styling */
+    div[data-testid="stAlert"] {
+        background-color: #1A1A1A !important;
+        border: 1px solid #D32F2F !important;
+        border-radius: 8px !important;
+    }
+
+    div[data-testid="stAlert"] p, 
+    div[data-testid="stAlert"] span {
+        color: #FFFFFF !important;
+    }
+
+    /* Chat Messages */
     div[data-testid="stChatMessage"] {
         background-color: #1E1E1E !important;
         border-radius: 8px !important;
         padding: 10px !important;
     }
 
-    div[data-testid="stChatMessage"] * {
+    div[data-testid="stChatMessage"] p {
         color: #FFFFFF !important;
     }
 
-    /* st.info / Note Box Styling */
-    div[data-testid="stAlert"] {
-        background-color: #262626 !important;
-        border: 1px solid #D32F2F !important;
+    /* Fixed Bottom Chat Input Bar */
+    div[data-testid="stChatInput"] {
+        background-color: #1A1A1A !important;
+        border-radius: 10px !important;
     }
 
-    div[data-testid="stAlert"] * {
-        color: #FFFFFF !important;
-    }
-
-    /* Chat Input Box */
     div[data-testid="stChatInput"] textarea {
         color: #FFFFFF !important;
-        background-color: #1E1E1E !important;
+        background-color: #262626 !important;
+        border-radius: 8px !important;
+    }
+
+    div[data-testid="stChatInput"] textarea::placeholder {
+        color: #AAAAAA !important;
+        opacity: 1 !important;
+    }
+
+    div[data-testid="stChatInput"] button {
+        background-color: #D32F2F !important;
+        border: none !important;
+        border-radius: 6px !important;
+    }
+
+    div[data-testid="stChatInput"] button svg {
+        fill: #FFFFFF !important;
     }
     </style>
     """,
     unsafe_allow_html=True
 )
+
 # App Header
 st.title("➕ Health & Well-Being Co-Pilot")
 st.markdown(
