@@ -13,7 +13,7 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    /* Global App Background & Text Color */
+    /* Global App Background & Main Text */
     .stApp {
         background-color: #121212 !important;
         color: #FFFFFF !important;
@@ -27,39 +27,44 @@ st.markdown(
         padding: 20px !important;
     }
 
-    /* Target Text Area Box Background & Text */
+    /* Target Labels Above Text Areas and Inputs */
+    div[data-testid="stForm"] label,
+    div[data-testid="stForm"] label p,
+    div[data-testid="stForm"] label span {
+        color: #FFFFFF !important;
+        font-weight: 500 !important;
+    }
+
+    /* Text Area Input Box & Text */
     div[data-testid="stTextArea"] textarea {
         background-color: #262626 !important;
         color: #FFFFFF !important;
         border: 1px solid #444444 !important;
     }
 
-    /* File Uploader Outer Box & Dropzone Background */
+    /* Placeholder Text inside Text Area */
+    div[data-testid="stTextArea"] textarea::placeholder {
+        color: #999999 !important;
+        opacity: 1 !important;
+    }
+
+    /* File Uploader Container & Inner Box */
     div[data-testid="stFileUploader"] {
         background-color: transparent !important;
     }
-    
+
     div[data-testid="stFileUploaderDropzone"],
-    div[data-testid="stFileUploader"] section,
-    div[data-testid="stFileUploader"] section > div {
+    div[data-testid="stFileUploader"] section {
         background-color: #262626 !important;
         border: 1px dashed #D32F2F !important;
         border-radius: 8px !important;
     }
 
-    /* Force ALL Text Inside File Uploader to Dark Gray / Off-White for High Contrast */
-    div[data-testid="stFileUploader"] *,
-    div[data-testid="stFileUploader"] p,
-    div[data-testid="stFileUploader"] span,
+    /* File Uploader "200MB per file" Subtext */
     div[data-testid="stFileUploader"] small,
-    div[data-testid="stFileUploader"] div {
-        color: #E0E0E0 !important;
-    }
-
-    /* Keep Section Header and Input Label Pure White */
-    div[data-testid="stFileUploader"] label,
-    div[data-testid="stFileUploader"] label * {
-        color: #FFFFFF !important;
+    div[data-testid="stFileUploader"] p,
+    div[data-testid="stFileUploader"] span {
+        color: #DDDDDD !important;
     }
 
     /* Upload Button Styling */
@@ -67,23 +72,20 @@ st.markdown(
         background-color: #D32F2F !important;
         border: none !important;
         border-radius: 8px !important;
-        box-shadow: 0 4px 6px rgba(211, 47, 47, 0.3) !important;
     }
 
     /* Upload Button Text & Icon */
     div[data-testid="stFileUploader"] button *,
-    div[data-testid="stFileUploader"] button span,
     div[data-testid="stFileUploader"] button p {
         color: #FFFFFF !important;
         font-weight: 600 !important;
     }
 
-    /* Upload Button Hover */
     div[data-testid="stFileUploader"] button:hover {
         background-color: #F44336 !important;
     }
 
-    /* Primary Submit Button & General Buttons */
+    /* Submit Button ("Generate Care Plan") */
     .stButton > button {
         background-color: #D32F2F !important;
         color: #FFFFFF !important;
@@ -96,12 +98,6 @@ st.markdown(
     .stButton > button:hover {
         background-color: #F44336 !important;
         color: #FFFFFF !important;
-    }
-
-    /* Placeholder Text Styling */
-    ::placeholder {
-        color: #888888 !important;
-        opacity: 1 !important;
     }
 
     /* Chat Input Styling */
