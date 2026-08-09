@@ -9,28 +9,61 @@ st.set_page_config(
     layout="centered"
 )
 
-# Custom CSS for a clean Red-and-White EMS Theme
+# Custom CSS for a dark, warm, textured White-and-Red Theme
 st.markdown(
     """
     <style>
+    /* Global App Background & Text Color */
     .stApp {
-        background-color: #FFFAFA;
-        color: #111111;
+        background-color: #121212;
+        color: #FFFFFF;
     }
+
+    /* Text Inputs, Text Areas, and File Uploader Text */
+    .stTextInput input, .stTextArea textarea, .stSelectbox select, p, span, label, div {
+        color: #FFFFFF !important;
+    }
+
+    /* Placeholder Text Color */
+    ::placeholder {
+        color: #AAAAAA !important;
+        opacity: 1;
+    }
+
+    /* Form Container / Inner styling to make it feel less sterile */
+    div[data-testid="stForm"] {
+        background-color: #1A1A1A;
+        border: 1px solid #331A1A;
+        border-radius: 10px;
+        padding: 20px;
+    }
+
+    /* Buttons with vibrant red accents */
     .stButton>button {
-        background-color: #B71C1C;
-        color: white;
-        border-radius: 6px;
+        background-color: #D32F2F;
+        color: #FFFFFF;
+        border-radius: 8px;
         border: none;
-        font-weight: 500;
+        font-weight: 600;
+        box-shadow: 0 4px 6px rgba(211, 47, 47, 0.3);
+        transition: all 0.3s ease;
     }
     .stButton>button:hover {
-        background-color: #B71C1C;
-        color: white;
+        background-color: #F44336;
+        color: #FFFFFF;
+        box-shadow: 0 6px 8px rgba(244, 67, 54, 0.4);
     }
+
+    /* Sidebar Styling */
     [data-testid="stSidebar"] {
-        background-color: #FFFAFA;
-        border-right: 1px solid #FFCDD2;
+        background-color: #181818;
+        border-right: 1px solid #331A1A;
+    }
+
+    /* Chat input box container styling */
+    [data-testid="stChatInput"] textarea {
+        color: #FFFFFF !important;
+        background-color: #1E1E1E !important;
     }
     </style>
     """,
