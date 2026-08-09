@@ -10,6 +10,7 @@ st.set_page_config(
 )
 
 # Custom CSS for a dark, warm, textured White-and-Red Theme
+# Custom CSS for a dark, warm, textured White-and-Red Theme
 st.markdown(
     """
     <style>
@@ -19,7 +20,7 @@ st.markdown(
         color: #FFFFFF;
     }
 
-    /* Text Inputs, Text Areas, and File Uploader Text */
+    /* Text Inputs, Text Areas, and Form Labels */
     .stTextInput input, .stTextArea textarea, .stSelectbox select, p, span, label, div {
         color: #FFFFFF !important;
     }
@@ -30,7 +31,7 @@ st.markdown(
         opacity: 1;
     }
 
-    /* Form Container / Inner styling to make it feel less sterile */
+    /* Form Container */
     div[data-testid="stForm"] {
         background-color: #1A1A1A;
         border: 1px solid #331A1A;
@@ -38,10 +39,10 @@ st.markdown(
         padding: 20px;
     }
 
-    /* Buttons with vibrant red accents */
+    /* Standard Buttons & Form Submit Buttons */
     .stButton>button {
         background-color: #D32F2F;
-        color: #E81416;
+        color: #FFFFFF !important;
         border-radius: 8px;
         border: none;
         font-weight: 600;
@@ -50,8 +51,37 @@ st.markdown(
     }
     .stButton>button:hover {
         background-color: #F44336;
-        color: #FFFFFF;
+        color: #FFFFFF !important;
         box-shadow: 0 6px 8px rgba(244, 67, 54, 0.4);
+    }
+
+    /* File Uploader Container & Label Text */
+    div[data-testid="stFileUploader"] label, 
+    div[data-testid="stFileUploader"] span, 
+    div[data-testid="stFileUploader"] small,
+    div[data-testid="stFileUploaderDropzoneInstructions"] div {
+        color: #FFFFFF !important;
+    }
+
+    /* File Uploader Dropzone Background */
+    div[data-testid="stFileUploaderDropzone"] {
+        background-color: #1E1E1E !important;
+        border: 1px dashed #D32F2F !important;
+    }
+
+    /* File Uploader 'Browse files' Button */
+    div[data-testid="stFileUploader"] button {
+        background-color: #D32F2F !important;
+        color: #FFFFFF !important;
+        border: none !important;
+        border-radius: 8px !important;
+        font-weight: 600 !important;
+    }
+
+    /* File Uploader Button Hover */
+    div[data-testid="stFileUploader"] button:hover {
+        background-color: #F44336 !important;
+        color: #FFFFFF !important;
     }
 
     /* Sidebar Styling */
