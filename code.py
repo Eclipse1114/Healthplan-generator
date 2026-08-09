@@ -15,87 +15,96 @@ st.markdown(
     <style>
     /* Global App Background & Text Color */
     .stApp {
-        background-color: #121212;
-        color: #FFFFFF;
-    }
-
-    /* Text Inputs, Text Areas, and Form Labels */
-    .stTextInput input, .stTextArea textarea, .stSelectbox select, p, span, label, div {
+        background-color: #121212 !important;
         color: #FFFFFF !important;
-    }
-
-    /* Placeholder Text Color */
-    ::placeholder {
-        color: #AAAAAA !important;
-        opacity: 1;
     }
 
     /* Form Container */
     div[data-testid="stForm"] {
-        background-color: #1A1A1A;
-        border: 1px solid #331A1A;
-        border-radius: 10px;
-        padding: 20px;
+        background-color: #1A1A1A !important;
+        border: 1px solid #331A1A !important;
+        border-radius: 10px !important;
+        padding: 20px !important;
     }
 
-    /* Standard Buttons & Form Submit Buttons */
-    .stButton>button {
-        background-color: #D32F2F;
+    /* Target Text Area Box Background & Text */
+    div[data-testid="stTextArea"] textarea {
+        background-color: #262626 !important;
         color: #FFFFFF !important;
-        border-radius: 8px;
-        border: none;
-        font-weight: 600;
-        box-shadow: 0 4px 6px rgba(211, 47, 47, 0.3);
-        transition: all 0.3s ease;
-    }
-    .stButton>button:hover {
-        background-color: #F44336;
-        color: #FFFFFF !important;
-        box-shadow: 0 6px 8px rgba(244, 67, 54, 0.4);
+        border: 1px solid #444444 !important;
     }
 
-    /* File Uploader Container & Label Text */
-    div[data-testid="stFileUploader"] label, 
-    div[data-testid="stFileUploader"] span, 
-    div[data-testid="stFileUploaderDropzoneInstructions"] div {
-        color: #FFFFFF !important;
+    /* File Uploader Outer Box & Dropzone Background */
+    div[data-testid="stFileUploader"] {
+        background-color: transparent !important;
     }
-
-    /* Target the specific "200MB per file • JPG, PNG" subtext */
-    div[data-testid="stFileUploader"] small,
-    div[data-testid="stFileUploader"] [data-testid="stCaptionContainer"],
-    div[data-testid="stFileUploader"] div[data-testid="stMarkdownContainer"] p {
-        color: #CCCCCC !important;
-    }
-
-    /* File Uploader Dropzone Background */
-    div[data-testid="stFileUploaderDropzone"] {
-        background-color: #1E1E1E !important;
+    
+    div[data-testid="stFileUploaderDropzone"],
+    div[data-testid="stFileUploader"] section,
+    div[data-testid="stFileUploader"] section > div {
+        background-color: #262626 !important;
         border: 1px dashed #D32F2F !important;
+        border-radius: 8px !important;
     }
 
-    /* File Uploader 'Browse files' Button */
+    /* Force ALL Text Inside File Uploader to Dark Gray / Off-White for High Contrast */
+    div[data-testid="stFileUploader"] *,
+    div[data-testid="stFileUploader"] p,
+    div[data-testid="stFileUploader"] span,
+    div[data-testid="stFileUploader"] small,
+    div[data-testid="stFileUploader"] div {
+        color: #E0E0E0 !important;
+    }
+
+    /* Keep Section Header and Input Label Pure White */
+    div[data-testid="stFileUploader"] label,
+    div[data-testid="stFileUploader"] label * {
+        color: #FFFFFF !important;
+    }
+
+    /* Upload Button Styling */
     div[data-testid="stFileUploader"] button {
         background-color: #D32F2F !important;
-        color: #FFFFFF !important;
         border: none !important;
         border-radius: 8px !important;
+        box-shadow: 0 4px 6px rgba(211, 47, 47, 0.3) !important;
+    }
+
+    /* Upload Button Text & Icon */
+    div[data-testid="stFileUploader"] button *,
+    div[data-testid="stFileUploader"] button span,
+    div[data-testid="stFileUploader"] button p {
+        color: #FFFFFF !important;
         font-weight: 600 !important;
     }
 
-    /* File Uploader Button Hover */
+    /* Upload Button Hover */
     div[data-testid="stFileUploader"] button:hover {
+        background-color: #F44336 !important;
+    }
+
+    /* Primary Submit Button & General Buttons */
+    .stButton > button {
+        background-color: #D32F2F !important;
+        color: #FFFFFF !important;
+        border-radius: 8px !important;
+        border: none !important;
+        font-weight: 600 !important;
+        box-shadow: 0 4px 6px rgba(211, 47, 47, 0.3) !important;
+    }
+
+    .stButton > button:hover {
         background-color: #F44336 !important;
         color: #FFFFFF !important;
     }
 
-    /* Sidebar Styling */
-    [data-testid="stSidebar"] {
-        background-color: #181818;
-        border-right: 1px solid #331A1A;
+    /* Placeholder Text Styling */
+    ::placeholder {
+        color: #888888 !important;
+        opacity: 1 !important;
     }
 
-    /* Chat input box container styling */
+    /* Chat Input Styling */
     [data-testid="stChatInput"] textarea {
         color: #FFFFFF !important;
         background-color: #1E1E1E !important;
