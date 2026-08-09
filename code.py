@@ -41,7 +41,7 @@ st.markdown(
     /* Buttons with vibrant red accents */
     .stButton>button {
         background-color: #D32F2F;
-        color: #FFFFFF;
+        color: #E81416;
         border-radius: 8px;
         border: none;
         font-weight: 600;
