@@ -18,7 +18,7 @@ st.markdown(
         color: #111111;
     }
     .stButton>button {
-        background-color: #D32F2F;
+        background-color: #FFFFFF;
         color: white;
         border-radius: 6px;
         border: none;
@@ -113,7 +113,7 @@ if submitted:
                     contents.append(image)
                 
                 response = client.models.generate_content(
-                    model="gemini-2.5-flash",
+                    model="gemini-3.5-flash",
                     contents=contents,
                     config=genai.types.GenerateContentConfig(
                         system_instruction=system_instruction,
@@ -170,7 +170,7 @@ if st.session_state.plan_generated:
 Answer the user's latest question concisely while keeping the same professional, safe, and empathetic tone."""
                 
                 response = client.models.generate_content(
-                    model="gemini-2.5-flash",
+                    model="gemini-3.5-flash",
                     contents=followup_prompt,
                 )
                 
