@@ -154,6 +154,9 @@ if submitted:
                     )
                 )
                 
+                # CLEAR old history/plan when a new plan is requested
+                st.session_state.chat_history = []
+                
                 # Store interaction in session state chat history
                 user_display = f"**Case Context:** {user_context}" if user_context.strip() else "**Case Context:** [Attached Media]"
                 st.session_state.chat_history.append({"role": "user", "text": user_display})
