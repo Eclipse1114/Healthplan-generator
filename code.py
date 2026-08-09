@@ -10,7 +10,6 @@ st.set_page_config(
 )
 
 # Custom CSS for a dark, warm, textured White-and-Red Theme
-# Custom CSS for a dark, warm, textured White-and-Red Theme
 st.markdown(
     """
     <style>
@@ -58,9 +57,15 @@ st.markdown(
     /* File Uploader Container & Label Text */
     div[data-testid="stFileUploader"] label, 
     div[data-testid="stFileUploader"] span, 
-    div[data-testid="stFileUploader"] small,
     div[data-testid="stFileUploaderDropzoneInstructions"] div {
         color: #FFFFFF !important;
+    }
+
+    /* Target the specific "200MB per file • JPG, PNG" subtext */
+    div[data-testid="stFileUploader"] small,
+    div[data-testid="stFileUploader"] [data-testid="stCaptionContainer"],
+    div[data-testid="stFileUploader"] div[data-testid="stMarkdownContainer"] p {
+        color: #CCCCCC !important;
     }
 
     /* File Uploader Dropzone Background */
