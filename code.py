@@ -13,9 +13,14 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    /* Global App Background & Main Text */
+    /* Global App Background & Base Text */
     .stApp {
         background-color: #121212 !important;
+        color: #FFFFFF !important;
+    }
+
+    /* Force all text paragraphs, spans, headers, and markdown across the app to high-contrast white */
+    p, span, h1, h2, h3, h4, h5, h6, label, div[data-testid="stMarkdownContainer"] * {
         color: #FFFFFF !important;
     }
 
@@ -27,28 +32,20 @@ st.markdown(
         padding: 20px !important;
     }
 
-    /* Target Labels Above Text Areas and Inputs */
-    div[data-testid="stForm"] label,
-    div[data-testid="stForm"] label p,
-    div[data-testid="stForm"] label span {
-        color: #FFFFFF !important;
-        font-weight: 500 !important;
-    }
-
-    /* Text Area Input Box & Text */
+    /* Text Area Box & Active Input Text */
     div[data-testid="stTextArea"] textarea {
         background-color: #262626 !important;
         color: #FFFFFF !important;
         border: 1px solid #444444 !important;
     }
 
-    /* Placeholder Text inside Text Area */
+    /* Text Area Placeholder Text Only */
     div[data-testid="stTextArea"] textarea::placeholder {
         color: #999999 !important;
         opacity: 1 !important;
     }
 
-    /* File Uploader Container & Inner Box */
+    /* File Uploader Outer & Dropzone Box */
     div[data-testid="stFileUploader"] {
         background-color: transparent !important;
     }
@@ -60,10 +57,10 @@ st.markdown(
         border-radius: 8px !important;
     }
 
-    /* File Uploader "200MB per file" Subtext */
+    /* File Uploader Subtext ("200MB per file...") */
     div[data-testid="stFileUploader"] small,
-    div[data-testid="stFileUploader"] p,
-    div[data-testid="stFileUploader"] span {
+    div[data-testid="stFileUploader"] [data-testid="stCaptionContainer"] *,
+    div[data-testid="stFileUploader"] p {
         color: #DDDDDD !important;
     }
 
@@ -74,9 +71,7 @@ st.markdown(
         border-radius: 8px !important;
     }
 
-    /* Upload Button Text & Icon */
-    div[data-testid="stFileUploader"] button *,
-    div[data-testid="stFileUploader"] button p {
+    div[data-testid="stFileUploader"] button * {
         color: #FFFFFF !important;
         font-weight: 600 !important;
     }
@@ -85,7 +80,7 @@ st.markdown(
         background-color: #F44336 !important;
     }
 
-    /* Submit Button ("Generate Care Plan") */
+    /* Standard Buttons & Submit Button */
     .stButton > button {
         background-color: #D32F2F !important;
         color: #FFFFFF !important;
@@ -100,8 +95,29 @@ st.markdown(
         color: #FFFFFF !important;
     }
 
-    /* Chat Input Styling */
-    [data-testid="stChatInput"] textarea {
+    /* Chat Messages & Follow-up Text Area */
+    div[data-testid="stChatMessage"] {
+        background-color: #1E1E1E !important;
+        border-radius: 8px !important;
+        padding: 10px !important;
+    }
+
+    div[data-testid="stChatMessage"] * {
+        color: #FFFFFF !important;
+    }
+
+    /* st.info / Note Box Styling */
+    div[data-testid="stAlert"] {
+        background-color: #262626 !important;
+        border: 1px solid #D32F2F !important;
+    }
+
+    div[data-testid="stAlert"] * {
+        color: #FFFFFF !important;
+    }
+
+    /* Chat Input Box */
+    div[data-testid="stChatInput"] textarea {
         color: #FFFFFF !important;
         background-color: #1E1E1E !important;
     }
@@ -109,7 +125,6 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
 # App Header
 st.title("➕ Health & Well-Being Co-Pilot")
 st.markdown(
