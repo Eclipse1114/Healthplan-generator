@@ -19,6 +19,21 @@ st.markdown(
         color: #FFFFFF !important;
     }
 
+    /* Force ALL Markdown Headings, Paragraphs, Lists & Bullets to Pure White */
+    div[data-testid="stMarkdownContainer"] h1,
+    div[data-testid="stMarkdownContainer"] h2,
+    div[data-testid="stMarkdownContainer"] h3,
+    div[data-testid="stMarkdownContainer"] h4,
+    div[data-testid="stMarkdownContainer"] p,
+    div[data-testid="stMarkdownContainer"] li,
+    div[data-testid="stMarkdownContainer"] ol,
+    div[data-testid="stMarkdownContainer"] ul,
+    div[data-testid="stMarkdownContainer"] span,
+    div[data-testid="stMarkdownContainer"] strong {
+        color: #FFFFFF !important;
+        opacity: 1 !important;
+    }
+
     /* Form Container */
     div[data-testid="stForm"] {
         background-color: #1A1A1A !important;
@@ -64,7 +79,7 @@ st.markdown(
         color: #DDDDDD !important;
     }
 
-    /* All Standard Buttons + Download Button Styling */
+    /* Buttons & Download Button Styling */
     .stButton > button, 
     div[data-testid="stDownloadButton"] > button {
         background-color: #D32F2F !important;
@@ -82,7 +97,6 @@ st.markdown(
         color: #FFFFFF !important;
     }
 
-    /* Ensure text/icons inside buttons stay white */
     .stButton > button *, 
     div[data-testid="stDownloadButton"] > button * {
         color: #FFFFFF !important;
@@ -105,10 +119,6 @@ st.markdown(
         background-color: #1E1E1E !important;
         border-radius: 8px !important;
         padding: 10px !important;
-    }
-
-    div[data-testid="stChatMessage"] p {
-        color: #FFFFFF !important;
     }
 
     /* Fixed Bottom Chat Input Bar */
@@ -141,6 +151,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 # App Header
 st.title("➕ Health & Well-Being Co-Pilot")
