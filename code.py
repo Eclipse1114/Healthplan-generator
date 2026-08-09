@@ -14,11 +14,11 @@ st.markdown(
     """
     <style>
     .stApp {
-        background-color: #FFFFFF;
+        background-color: #FFFAFA;
         color: #111111;
     }
     .stButton>button {
-        background-color: #FFFFFF;
+        background-color: #B71C1C;
         color: white;
         border-radius: 6px;
         border: none;
