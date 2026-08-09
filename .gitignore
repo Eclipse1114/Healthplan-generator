@@ -1,0 +1,10 @@
+# Ignore Streamlit secrets containing your private Gemini API key
+.streamlit/secrets.toml
+secrets.toml
+
+# Ignore Python environment and cache files
+__pycache__/
+*.pyc
+.env
+venv/
+.venv/
