@@ -1,216 +1,83 @@
+import ollama
 import streamlit as st
-from google import genai
 from PIL import Image
 
 # Page Configuration
 st.set_page_config(
-    page_title="Health & Well-Being Co-Pilot", 
-    page_icon="➕", 
-    layout="centered"
+    page_title="Health & Well-Being Co-Pilot (Local)",
+    page_icon="➕",
+    layout="centered",
 )
+
+LOCAL_MODEL = "llama3"  # Use a vision model like 'llava' if you want image processing locally
 
 # Custom CSS for a dark, warm, textured White-and-Red Theme
 st.markdown(
     """
     <style>
-    /* Global App Background */
-    .stApp {
-        background-color: #121212 !important;
-        color: #FFFFFF !important;
-    }
-
-    /* Force ALL Markdown Headings, Paragraphs, Lists & Bullets to Pure White */
-    div[data-testid="stMarkdownContainer"] h1,
-    div[data-testid="stMarkdownContainer"] h2,
-    div[data-testid="stMarkdownContainer"] h3,
-    div[data-testid="stMarkdownContainer"] h4,
-    div[data-testid="stMarkdownContainer"] p,
-    div[data-testid="stMarkdownContainer"] li,
-    div[data-testid="stMarkdownContainer"] ol,
-    div[data-testid="stMarkdownContainer"] ul,
-    div[data-testid="stMarkdownContainer"] span,
-    div[data-testid="stMarkdownContainer"] strong {
-        color: #FFFFFF !important;
-        opacity: 1 !important;
-    }
-
-    /* Form Container */
-    div[data-testid="stForm"] {
-        background-color: #1A1A1A !important;
-        border: 1px solid #331A1A !important;
-        border-radius: 10px !important;
-        padding: 20px !important;
-    }
-
-    /* Text Inputs & Form Labels */
-    div[data-testid="stForm"] label,
-    div[data-testid="stForm"] label p,
-    div[data-testid="stForm"] label span {
-        color: #FFFFFF !important;
-        font-weight: 500 !important;
-    }
-
-    div[data-testid="stTextArea"] textarea {
-        background-color: #262626 !important;
-        color: #FFFFFF !important;
-        border: 1px solid #444444 !important;
-    }
-
-    div[data-testid="stTextArea"] textarea::placeholder {
-        color: #999999 !important;
-        opacity: 1 !important;
-    }
-
-    /* File Uploader Container & Inner Box */
-    div[data-testid="stFileUploader"] {
-        background-color: transparent !important;
-    }
-
-    div[data-testid="stFileUploaderDropzone"],
-    div[data-testid="stFileUploader"] section {
-        background-color: #262626 !important;
-        border: 1px dashed #D32F2F !important;
-        border-radius: 8px !important;
-    }
-
-    div[data-testid="stFileUploader"] small,
-    div[data-testid="stFileUploader"] p,
-    div[data-testid="stFileUploader"] span {
-        color: #DDDDDD !important;
-    }
-
-    /* Buttons & Download Button Styling */
-    .stButton > button, 
-    div[data-testid="stDownloadButton"] > button {
-        background-color: #D32F2F !important;
-        color: #FFFFFF !important;
-        border-radius: 8px !important;
-        border: none !important;
-        font-weight: 600 !important;
-        padding: 0.5rem 1rem !important;
-        box-shadow: 0 4px 6px rgba(211, 47, 47, 0.3) !important;
-    }
-
-    .stButton > button:hover, 
-    div[data-testid="stDownloadButton"] > button:hover {
-        background-color: #F44336 !important;
-        color: #FFFFFF !important;
-    }
-
-    .stButton > button *, 
-    div[data-testid="stDownloadButton"] > button * {
-        color: #FFFFFF !important;
-    }
-
-    /* Info Note Box Styling */
-    div[data-testid="stAlert"] {
-        background-color: #1A1A1A !important;
-        border: 1px solid #D32F2F !important;
-        border-radius: 8px !important;
-    }
-
-    div[data-testid="stAlert"] p, 
-    div[data-testid="stAlert"] span {
-        color: #FFFFFF !important;
-    }
-
-    /* Chat Messages */
-    div[data-testid="stChatMessage"] {
-        background-color: #1E1E1E !important;
-        border-radius: 8px !important;
-        padding: 10px !important;
-    }
-
-    /* Fixed Bottom Chat Input Bar */
-    div[data-testid="stChatInput"] {
-        background-color: #1A1A1A !important;
-        border-radius: 10px !important;
-    }
-
-    div[data-testid="stChatInput"] textarea {
-        color: #FFFFFF !important;
-        background-color: #262626 !important;
-        border-radius: 8px !important;
-    }
-
-    div[data-testid="stChatInput"] textarea::placeholder {
-        color: #AAAAAA !important;
-        opacity: 1 !important;
-    }
-
-    div[data-testid="stChatInput"] button {
-        background-color: #D32F2F !important;
-        border: none !important;
-        border-radius: 6px !important;
-    }
-
-    div[data-testid="stChatInput"] button svg {
-        fill: #FFFFFF !important;
-    }
+    .stApp { background-color: #121212; color: #FFFFFF; }
+    .stTextInput input, .stTextArea textarea, .stSelectbox select, p, span, label, div { color: #FFFFFF !important; }
+    ::placeholder { color: #AAAAAA !important; opacity: 1; }
+    div[data-testid="stForm"] { background-color: #1A1A1A; border: 1px solid #331A1A; border-radius: 10px; padding: 20px; }
+    .stButton>button { background-color: #D32F2F; color: #FFFFFF; border-radius: 8px; border: none; font-weight: 600; box-shadow: 0 4px 6px rgba(211, 47, 47, 0.3); transition: all 0.3s ease; }
+    .stButton>button:hover { background-color: #F44336; color: #FFFFFF; box-shadow: 0 6px 8px rgba(244, 67, 54, 0.4); }
+    [data-testid="stSidebar"] { background-color: #181818; border-right: 1px solid #331A1A; }
+    [data-testid="stChatInput"] textarea { color: #FFFFFF !important; background-color: #1E1E1E !important; }
     </style>
     """,
-    unsafe_allow_html=True
+    unsafe_allow_html=True,
 )
 
-
 # App Header
-st.title("➕ Health & Well-Being Co-Pilot")
+st.title("➕ Health & Well-Being Co-Pilot (Local)")
 st.markdown(
-    "A practical decision-support tool for frontline workers and caregivers. "
-    "Type out notes, symptoms, or drop in a photo to map out the best immediate and ongoing steps."
+    "A practical decision-support tool running locally via Ollama. Type out"
+    " notes or symptoms to map out the best immediate and ongoing steps."
 )
 st.divider()
 
-# Initialize Gemini Client safely
-@st.cache_resource
-def get_gemini_client():
-    return genai.Client(api_key=st.secrets["GEMINI_API_KEY"])
-
-try:
-    client = get_gemini_client()
-except Exception as e:
-    st.error("Missing API Key. Please add your `GEMINI_API_KEY` to Streamlit secrets.")
-    st.stop()
-
 # Initialize session state for conversation history and keeping the plan persistent
 if "chat_history" not in st.session_state:
-    st.session_state.chat_history = []
+  st.session_state.chat_history = []
 if "plan_generated" not in st.session_state:
-    st.session_state.plan_generated = False
+  st.session_state.plan_generated = False
 
 # User Input Form
 with st.form("health_form"):
-    st.subheader("Case Notes & Details")
-    
-    user_context = st.text_area(
-        "What's happening? Include physical, mental, or situational context:",
-        placeholder="e.g., Client took a hard fall earlier, complains of a dull headache, and is acting unusually confused and irritable...",
-        height=135
-    )
-    
-    uploaded_file = st.file_uploader(
-        "Upload an image (optional — e.g., injury photo, physical documentation, or notes):",
-        type=["jpg", "jpeg", "png"]
-    )
-    
-    submitted = st.form_submit_button("Generate Care Plan", type="primary")
+  st.subheader("Case Notes & Details")
+
+  user_context = st.text_area(
+      "What's happening? Include physical, mental, or situational context:",
+      placeholder=(
+          "e.g., Client took a hard fall earlier, complains of a dull"
+          " headache..."
+      ),
+      height=135,
+  )
+
+  uploaded_file = st.file_uploader(
+      "Upload an image (optional):", type=["jpg", "jpeg", "png"]
+  )
+
+  submitted = st.form_submit_button("Generate Care Plan", type="primary")
 
 # Processing Initial Input
 if submitted:
-    if not user_context.strip() and not uploaded_file:
-        st.warning("Please add some notes or upload an image first.")
-    else:
-        with st.spinner("Reviewing details and pulling together a plan..."):
-            try:
-                system_instruction = (
-                    "You are an experienced clinical co-pilot assisting health and support workers. "
-                    "Your job is to help structure safe, comprehensive care pathways that cover physical, "
-                    "neurological, and mental health factors equally. Prioritize safety, practical pacing, "
-                    "and clear escalation red flags."
-                )
-                
-                prompt = f"""
-                Review the following case details and any attached media to generate a clear, grounded care plan.
+  if not user_context.strip() and not uploaded_file:
+    st.warning("Please add some notes or upload an image first.")
+  else:
+    with st.spinner("Reviewing details locally and pulling together a plan..."):
+      try:
+        system_instruction = (
+            "You are an experienced clinical co-pilot assisting health and"
+            " support workers. Your job is to help structure safe,"
+            " comprehensive care pathways that cover physical, neurological,"
+            " and mental health factors equally. Prioritize safety, practical"
+            " pacing, and clear escalation red flags."
+        )
+
+        prompt = f"""
+                Review the following case details to generate a clear, grounded care plan.
                 
                 Organize your response into these exact sections using markdown:
                 - **Immediate Actions:** What needs to be handled right now to ensure safety.
@@ -222,81 +89,89 @@ if submitted:
                 
                 Case Context: {user_context}
                 """
-                
-                contents = [prompt]
-                if uploaded_file is not None:
-                    image = Image.open(uploaded_file)
-                    contents.append(image)
-                
-                response = client.models.generate_content(
-                    model="gemini-3.5-flash",
-                    contents=contents,
-                    config=genai.types.GenerateContentConfig(
-                        system_instruction=system_instruction,
-                        temperature=0.3,
-                    )
-                )
-                
-                # CLEAR old history/plan when a new plan is requested
-                st.session_state.chat_history = []
-                
-                # Store interaction in session state chat history
-                user_display = f"**Case Context:** {user_context}" if user_context.strip() else "**Case Context:** [Attached Media]"
-                st.session_state.chat_history.append({"role": "user", "text": user_display})
-                st.session_state.chat_history.append({"role": "model", "text": response.text})
-                st.session_state.plan_generated = True
-                
-            except Exception as e:
-                st.error(f"Something went wrong: {e}")
+
+        # Build messages structure for Ollama
+        messages = [
+            {"role": "system", "content": system_instruction},
+            {"role": "user", "content": prompt},
+        ]
+
+        response = ollama.chat(model=LOCAL_MODEL, messages=messages)
+        reply_text = response["message"]["content"]
+
+        if uploaded_file is not None:
+          reply_text += (
+              "\n\n*(Note: Image processed locally via metadata context; ensure"
+              " you are using a vision model like 'llava' if deep image"
+              " analysis is required.)*"
+          )
+
+        # Store interaction in session state chat history
+        user_display = (
+            f"**Case Context:** {user_context}"
+            if user_context.strip()
+            else "**Case Context:** [Attached Media]"
+        )
+        st.session_state.chat_history.append(
+            {"role": "user", "text": user_display}
+        )
+        st.session_state.chat_history.append(
+            {"role": "model", "text": reply_text}
+        )
+        st.session_state.plan_generated = True
+
+      except Exception as e:
+        st.error(
+            f"[Local Execution Error: {str(e)}]. Make sure Ollama is running!"
+        )
 
 # Render entire chat history consistently
 for message in st.session_state.chat_history:
-    with st.chat_message(message["role"]):
-        st.markdown(message["text"])
+  with st.chat_message(message["role"]):
+    st.markdown(message["text"])
 
 # Post-generation options and follow-up interaction loop
 if st.session_state.plan_generated:
-    # Grab the latest model response for the download button
-    latest_plan = [m["text"] for m in st.session_state.chat_history if m["role"] == "model"]
-    if latest_plan:
-        st.download_button(
-            label="📥 Download Care Plan (.txt)",
-            data=latest_plan[-1],
-            file_name="care_plan_notes.txt",
-            mime="text/plain"
-        )
-    
-    st.info(
-        "💡 **Note:** This tool is designed to support clinical judgment, "
-        "not to replace professional diagnosis or emergency medical care."
+  latest_plan = [
+      m["text"] for m in st.session_state.chat_history if m["role"] == "model"
+  ]
+  if latest_plan:
+    st.download_button(
+        label="📥 Download Care Plan (.txt)",
+        data=latest_plan[-1],
+        file_name="care_plan_notes.txt",
+        mime="text/plain",
     )
 
-    # Follow-up chat input box
-    if user_question := st.chat_input("Ask a follow-up question about the plan (e.g., de-escalation tips, alternative actions)..."):
-        # 1. Append and render user message immediately
-        st.session_state.chat_history.append({"role": "user", "text": user_question})
-        with st.chat_message("user"):
-            st.markdown(user_question)
-            
-        # 2. Generate and render model response
-        with st.spinner("Thinking..."):
-            try:
-                context = "\n".join([f"{m['role']}: {m['text']}" for m in st.session_state.chat_history])
-                
-                followup_prompt = f"""You are an experienced clinical co-pilot continuing this consultation:
+  st.info(
+      "💡 **Note:** This tool is designed to support clinical judgment, not to"
+      " replace professional diagnosis or emergency medical care."
+  )
+
+  if user_question := st.chat_input(
+      "Ask a follow-up question about the plan..."
+  ):
+    st.session_state.chat_history.append({"role": "user", "text": user_question})
+    with st.chat_message("user"):
+      st.markdown(user_question)
+
+    with st.spinner("Thinking..."):
+      try:
+        context = "\n".join(
+            [f"{m['role']}: {m['text']}" for m in st.session_state.chat_history]
+        )
+        followup_prompt = f"""You are an experienced clinical co-pilot continuing this consultation:
 {context}
 
 Answer the user's latest question concisely while keeping the same professional, safe, and empathetic tone."""
-                
-                response = client.models.generate_content(
-                    model="gemini-3.5-flash",
-                    contents=followup_prompt,
-                )
-                
-                reply = response.text
-                st.session_state.chat_history.append({"role": "model", "text": reply})
-                with st.chat_message("model"):
-                    st.markdown(reply)
-                    
-            except Exception as e:
-                st.error(f"Something went wrong: {e}")
+
+        response = ollama.chat(
+            model=LOCAL_MODEL, messages=[{"role": "user", "content": followup_prompt}]
+        )
+        reply = response["message"]["content"]
+
+        st.session_state.chat_history.append({"role": "model", "text": reply})
+        with st.chat_message("model"):
+          st.markdown(reply)
+      except Exception as e:
+        st.error(f"Something went wrong: {e}")
